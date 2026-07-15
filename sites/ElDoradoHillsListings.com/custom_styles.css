@@ -4397,10 +4397,11 @@ footer .social-link svg {
 
 /* ------------------------------------------------------------
    FIX 3: Header height — lock regular and sticky to the same
-   height. box-sizing: border-box ensures padding doesn't add
-   to the height. display: flex + align-items: center lets the
-   inner .container fill the full height for logo sizing.
-   To adjust: change the TWO values marked with "← HEIGHT" below.
+   height. We do NOT override display/flex on header or .container
+   so Sierra's own nav layout (logo-left / nav-center / auth-right)
+   is preserved. box-sizing: border-box + padding: 0 ensures the
+   70px includes any internal padding Sierra adds.
+   To adjust: change the value marked with "← HEIGHT" below.
    ------------------------------------------------------------ */
 
 header,
@@ -4416,34 +4417,26 @@ header.is-sticky {
     box-sizing: border-box !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+    overflow: visible !important;
     -webkit-transition: none !important;
     transition: none !important;
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-align: center !important;
-    -ms-flex-align: center !important;
-    align-items: center !important;
 }
 
-/* Inner container fills the full header height so logo % sizing resolves correctly */
+/* Give the inner container full height so the logo's height: 58px
+   sits inside a properly-sized ancestor. No display override —
+   Sierra's flex layout for the nav is left intact. */
 header > .container,
 header .container {
     height: 100% !important;
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-align: center !important;
-    -ms-flex-align: center !important;
-    align-items: center !important;
-    width: 100% !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
 }
 
 /* ------------------------------------------------------------
    FIX 4: Header logo — solid white backdrop (matching footer).
-   height: calc(100% - 12px) is truly responsive — it always
-   fills the header height minus 6px breathing room top+bottom,
-   regardless of what height Sierra renders the header at.
+   Height is explicit (header height minus 12px breathing room).
+   margin: auto 0 vertically centers the logo within Sierra's
+   own flex container — no flex override needed.
    ------------------------------------------------------------ */
 
 header .logo,
@@ -4455,12 +4448,13 @@ header.is-sticky .logo {
     background-color: white !important;
     border-radius: 5px !important;
     padding: 4px 8px !important;
-    /* Responsive: fills header height minus 12px breathing room (6px top + 6px bottom) */
-    height: calc(100% - 12px) !important;
-    -ms-flex-item-align: center !important;
-    align-self: center !important;
+    /* 70px header − 12px (6px top + 6px bottom breathing room) = 58px */
+    height: 58px !important;
     width: auto !important;
     max-width: none !important;
+    /* Centers logo vertically inside Sierra's flex container */
+    margin-top: auto !important;
+    margin-bottom: auto !important;
     display: -webkit-inline-box !important;
     display: -ms-inline-flexbox !important;
     display: inline-flex !important;
@@ -4472,6 +4466,7 @@ header.is-sticky .logo {
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
+    vertical-align: middle !important;
 }
 
 /* Logo image fills the logo container — width follows height automatically */
@@ -4489,7 +4484,7 @@ header.is-sticky .logo img {
     object-fit: contain !important;
 }
 
-/* Mobile: shorter header at ≤543px — logo auto-scales via height: calc(100% - 12px) */
+/* Mobile: shorter header at ≤543px */
 @media (max-width: 543px) {
     header,
     header.scrolled,
@@ -4497,8 +4492,17 @@ header.is-sticky .logo img {
     header.fixed,
     header.scroll-fixed,
     header.is-sticky {
-        height: 56px !important;     /* ← HEIGHT (mobile) */
+        height: 56px !important;
         min-height: 56px !important;
         max-height: 56px !important;
+    }
+
+    header .logo,
+    header.scrolled .logo,
+    header.sticky .logo,
+    header.fixed .logo,
+    header.scroll-fixed .logo,
+    header.is-sticky .logo {
+        height: 44px !important;     /* 56px − 12px */
     }
 }
