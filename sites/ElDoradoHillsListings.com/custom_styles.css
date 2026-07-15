@@ -4438,59 +4438,89 @@ footer .social-link svg {
 }
 
 /* ------------------------------------------------------------
-   FIX 3: Header logo — same size as sticky/scrolled logo
-   Sierra typically shrinks the logo to ~130px on scroll.
-   Setting the base header .logo to the same width makes it
-   consistent between initial and sticky states.
+   FIX 3: Header height — lock regular and sticky to the same
+   height so there is no jump/resize on scroll.
+   Sierra's sticky header is typically ~70px tall.
+   *** If this looks wrong after upload, inspect the live site
+       in DevTools (Elements → header → computed height when
+       scrolled) and update the value below. ***
    ------------------------------------------------------------ */
 
-header .logo {
-    width: 130px !important;
-    max-width: 130px !important;
+/* Shared height value — change ONE number here to adjust both states */
+header,
+header.scrolled,
+header.sticky,
+header.fixed,
+header.scroll-fixed,
+header.is-sticky {
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
     -webkit-transition: none !important;
     transition: none !important;
 }
 
-header .logo img {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100% !important;
-    display: block !important;
-}
-
-/* Keep the existing mobile override working at ≤543px */
-@media (max-width: 543px) {
-    header .logo {
-        width: 110px !important;
-        max-width: 110px !important;
-    }
-}
-
 /* ------------------------------------------------------------
-   FIX 4: Header logo — white backdrop so dark logo text is
-   visible against the navy header background.
-   Mirrors the existing footer .logo treatment.
+   FIX 4: Header logo — solid white backdrop (matching footer)
+   and height-responsive sizing so the logo always fits snugly
+   inside the header regardless of height.
    ------------------------------------------------------------ */
 
-header .logo {
-    background-color: rgba(255, 255, 255, 0.92) !important;
-    border-radius: 4px !important;
+header .logo,
+header.scrolled .logo,
+header.sticky .logo,
+header.fixed .logo,
+header.scroll-fixed .logo,
+header.is-sticky .logo {
+    background-color: white !important;
+    border-radius: 5px !important;
     padding: 4px 8px !important;
+    /* Height-based sizing: fills the header minus 16px (8px breathing room top + bottom) */
+    height: calc(70px - 16px) !important;
+    width: auto !important;
+    max-width: none !important;
     display: -webkit-inline-box !important;
     display: -ms-inline-flexbox !important;
     display: inline-flex !important;
     -webkit-box-align: center !important;
     -ms-flex-align: center !important;
     align-items: center !important;
+    -webkit-transition: none !important;
+    transition: none !important;
 }
 
-/* Ensure the backdrop persists in every scroll state */
-header.scrolled .logo,
-header.sticky .logo,
-header.fixed .logo,
-header.scroll-fixed .logo,
-header.is-sticky .logo {
-    background-color: rgba(255, 255, 255, 0.92) !important;
-    border-radius: 4px !important;
-    padding: 4px 8px !important;
+/* Logo image fills the logo container — width follows height automatically */
+header .logo img,
+header.scrolled .logo img,
+header.sticky .logo img,
+header.fixed .logo img,
+header.scroll-fixed .logo img,
+header.is-sticky .logo img {
+    height: 100% !important;
+    width: auto !important;
+    max-width: none !important;
+    display: block !important;
+}
+
+/* Mobile: slightly shorter header and logo at ≤543px */
+@media (max-width: 543px) {
+    header,
+    header.scrolled,
+    header.sticky,
+    header.fixed,
+    header.scroll-fixed,
+    header.is-sticky {
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+    }
+
+    header .logo,
+    header.scrolled .logo,
+    header.sticky .logo,
+    header.fixed .logo,
+    header.scroll-fixed .logo,
+    header.is-sticky .logo {
+        height: calc(56px - 12px) !important;
+    }
 }
