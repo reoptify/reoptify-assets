@@ -4484,17 +4484,22 @@ header.is-sticky .logo img {
     object-fit: contain !important;
 }
 
-/* Mobile: shorter header at ≤543px */
-@media (max-width: 543px) {
+/* Mobile (≤991px): release all height and padding locks so Sierra's
+   own mobile layout (hamburger, language switcher, phone row) renders
+   correctly. Logo keeps its explicit height; the header sizes to content. */
+@media (max-width: 991px) {
     header,
     header.scrolled,
     header.sticky,
     header.fixed,
     header.scroll-fixed,
     header.is-sticky {
-        height: 56px !important;
-        min-height: 56px !important;
-        max-height: 56px !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        overflow: visible !important;
     }
 
     header .logo,
@@ -4503,6 +4508,13 @@ header.is-sticky .logo img {
     header.fixed .logo,
     header.scroll-fixed .logo,
     header.is-sticky .logo {
-        height: 44px !important;     /* 56px − 12px */
+        height: 44px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    header .container,
+    header > .container {
+        height: auto !important;
     }
 }
