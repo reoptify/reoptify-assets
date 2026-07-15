@@ -4288,81 +4288,39 @@ html {
 
 /* ------------------------------------------------------------
    FIX 1: Header nav text — white in ALL header states
-   Sierra Interactive adds .scrolled / .sticky / .scroll-fixed
-   to <header> on scroll. Force nav links to stay white in every
-   state, mirroring the mobile block at max-width: 991px above.
+   Uses both the exact HTML structure (ID #dynamic-menu for main
+   nav, .sub-nav for login/blog/phone) and the known permanent
+   header classes (.fixed.dark.dynamic) to achieve high enough
+   specificity to beat Sierra's sticky-state overrides.
    ------------------------------------------------------------ */
 
+/* Main nav: #dynamic-menu gives ID-level specificity (beats any class chain) */
+#dynamic-menu a,
+#dynamic-menu li a,
+#dynamic-menu .dynamic-menu-item a {
+    color: #ffffff !important;
+}
+
+/* Sub-nav: Login/Register, Blog, phone — scoped to header with fixed.dark classes */
+header.fixed.dark .sub-nav a,
+header.fixed.dark .auth-link a,
+header.fixed.dark .blog-link a,
+header.fixed.dark .phone-link a,
+header.fixed.dark .menu-button {
+    color: #ffffff !important;
+}
+
+/* Broad catch-all — covers any scroll state class Sierra may add */
+header .sub-nav a,
 header .auth-link a,
 header .blog-link a,
 header .phone-link a,
-header .menu-button,
-header .menu-item a,
-header .nav-link,
-header .head-menu a,
-header .nav-container a,
-header .item-login a,
-header .item-regist a {
+header .menu-button {
     color: #ffffff !important;
 }
 
-/* Scrolled / sticky states Sierra adds via JavaScript */
-
-header.scrolled .auth-link a,
-header.scrolled .blog-link a,
-header.scrolled .phone-link a,
-header.scrolled .menu-button,
-header.scrolled .menu-item a,
-header.scrolled .nav-link,
-header.scrolled .head-menu a,
-header.scrolled .nav-container a,
-header.scrolled .item-login a,
-header.scrolled .item-regist a,
-header.sticky .auth-link a,
-header.sticky .blog-link a,
-header.sticky .phone-link a,
-header.sticky .menu-button,
-header.sticky .menu-item a,
-header.sticky .nav-link,
-header.sticky .head-menu a,
-header.sticky .nav-container a,
-header.sticky .item-login a,
-header.sticky .item-regist a,
-header.fixed .auth-link a,
-header.fixed .blog-link a,
-header.fixed .phone-link a,
-header.fixed .menu-button,
-header.fixed .menu-item a,
-header.fixed .nav-link,
-header.fixed .head-menu a,
-header.fixed .nav-container a,
-header.fixed .item-login a,
-header.fixed .item-regist a,
-header.scroll-fixed .auth-link a,
-header.scroll-fixed .blog-link a,
-header.scroll-fixed .phone-link a,
-header.scroll-fixed .menu-button,
-header.scroll-fixed .menu-item a,
-header.scroll-fixed .nav-link,
-header.scroll-fixed .head-menu a,
-header.scroll-fixed .nav-container a,
-header.scroll-fixed .item-login a,
-header.scroll-fixed .item-regist a,
-header.is-sticky .auth-link a,
-header.is-sticky .blog-link a,
-header.is-sticky .phone-link a,
-header.is-sticky .menu-button,
-header.is-sticky .menu-item a,
-header.is-sticky .nav-link,
-header.is-sticky .head-menu a,
-header.is-sticky .nav-container a,
-header.is-sticky .item-login a,
-header.is-sticky .item-regist a {
-    color: #ffffff !important;
-}
-
-/* Hamburger / mobile menu bars stay white in all states */
-
+/* Hamburger bars — white in every state */
+header .bar,
 header.scrolled .bar,
 header.sticky .bar,
 header.fixed .bar,
@@ -4439,31 +4397,53 @@ footer .social-link svg {
 
 /* ------------------------------------------------------------
    FIX 3: Header height — lock regular and sticky to the same
-   height so there is no jump/resize on scroll.
-   Sierra's sticky header is typically ~70px tall.
-   *** If this looks wrong after upload, inspect the live site
-       in DevTools (Elements → header → computed height when
-       scrolled) and update the value below. ***
+   height. box-sizing: border-box ensures padding doesn't add
+   to the height. display: flex + align-items: center lets the
+   inner .container fill the full height for logo sizing.
+   To adjust: change the TWO values marked with "← HEIGHT" below.
    ------------------------------------------------------------ */
 
-/* Shared height value — change ONE number here to adjust both states */
 header,
 header.scrolled,
 header.sticky,
 header.fixed,
 header.scroll-fixed,
 header.is-sticky {
-    height: 70px !important;
+    height: 70px !important;         /* ← HEIGHT (desktop) */
     min-height: 70px !important;
     max-height: 70px !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     -webkit-transition: none !important;
     transition: none !important;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+/* Inner container fills the full header height so logo % sizing resolves correctly */
+header > .container,
+header .container {
+    height: 100% !important;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    width: 100% !important;
 }
 
 /* ------------------------------------------------------------
-   FIX 4: Header logo — solid white backdrop (matching footer)
-   and height-responsive sizing so the logo always fits snugly
-   inside the header regardless of height.
+   FIX 4: Header logo — solid white backdrop (matching footer).
+   height: calc(100% - 12px) is truly responsive — it always
+   fills the header height minus 6px breathing room top+bottom,
+   regardless of what height Sierra renders the header at.
    ------------------------------------------------------------ */
 
 header .logo,
@@ -4475,8 +4455,10 @@ header.is-sticky .logo {
     background-color: white !important;
     border-radius: 5px !important;
     padding: 4px 8px !important;
-    /* Height-based sizing: fills the header minus 16px (8px breathing room top + bottom) */
-    height: calc(70px - 16px) !important;
+    /* Responsive: fills header height minus 12px breathing room (6px top + 6px bottom) */
+    height: calc(100% - 12px) !important;
+    -ms-flex-item-align: center !important;
+    align-self: center !important;
     width: auto !important;
     max-width: none !important;
     display: -webkit-inline-box !important;
@@ -4487,6 +4469,9 @@ header.is-sticky .logo {
     align-items: center !important;
     -webkit-transition: none !important;
     transition: none !important;
+    -webkit-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 /* Logo image fills the logo container — width follows height automatically */
@@ -4500,9 +4485,11 @@ header.is-sticky .logo img {
     width: auto !important;
     max-width: none !important;
     display: block !important;
+    -o-object-fit: contain !important;
+    object-fit: contain !important;
 }
 
-/* Mobile: slightly shorter header and logo at ≤543px */
+/* Mobile: shorter header at ≤543px — logo auto-scales via height: calc(100% - 12px) */
 @media (max-width: 543px) {
     header,
     header.scrolled,
@@ -4510,17 +4497,8 @@ header.is-sticky .logo img {
     header.fixed,
     header.scroll-fixed,
     header.is-sticky {
-        height: 56px !important;
+        height: 56px !important;     /* ← HEIGHT (mobile) */
         min-height: 56px !important;
         max-height: 56px !important;
-    }
-
-    header .logo,
-    header.scrolled .logo,
-    header.sticky .logo,
-    header.fixed .logo,
-    header.scroll-fixed .logo,
-    header.is-sticky .logo {
-        height: calc(56px - 12px) !important;
     }
 }
