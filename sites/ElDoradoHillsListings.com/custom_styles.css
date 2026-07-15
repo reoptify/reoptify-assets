@@ -4420,6 +4420,9 @@ header.is-sticky {
     overflow: visible !important;
     -webkit-transition: none !important;
     transition: none !important;
+    /* Always on top — prevents page sections from painting over the header when scrolling */
+    position: fixed !important;
+    z-index: 9999 !important;
 }
 
 /* Give the inner container full height so the logo's height: 58px
@@ -4500,6 +4503,9 @@ header.is-sticky .logo img {
         padding-top: 8px !important;
         padding-bottom: 8px !important;
         overflow: visible !important;
+        /* Ensure z-index carries through on mobile too */
+        position: fixed !important;
+        z-index: 9999 !important;
     }
 
     header .logo,
@@ -4511,6 +4517,10 @@ header.is-sticky .logo img {
         height: 44px !important;
         margin-top: 0 !important;
         margin-bottom: 0 !important;
+        /* Cap width so the logo box doesn't extend into the
+           language switcher area that Sierra renders next to it */
+        max-width: 140px !important;
+        width: auto !important;
     }
 
     header .container,
