@@ -214,10 +214,10 @@ footer .logo img{
     right: 25px;
 }
 .slick-prev:before {
-    content: "â†";
+    content: "←";
 }
 [dir="rtl"] .slick-prev:before {
-    content: "â†â€™";
+    content: "←’";
 }
 .slick-next {
     right: 25px;
@@ -227,10 +227,10 @@ footer .logo img{
     right: auto;
 }
 .slick-next:before {
-    content: "â†’â€™";content: "â†’";
+    content: "→’";content: "→";
 }
 [dir="rtl"] .slick-next:before {
-    content: "â†’Â";
+    content: "→";
 }
 .slick-dotted.slick-slider {
     margin-bottom: 30px;
@@ -279,7 +279,7 @@ footer .logo img{
     position: absolute;
     top: 0;
     left: 0;
-    content: "Ã¢â‚¬Â¢";
+    content: "â€¢";
     width: 20px;
     height: 20px;
     font-family: "slick";
@@ -4275,193 +4275,222 @@ html {
     }
 }
 
-/* ==========================================================
-   ACCESSIBILITY / CONTRAST CORRECTIONS
-   Keeps header navigation readable in every scroll state and
-   keeps all footer copy readable on the dark navy background.
-   ========================================================== */
 
-/* Header background: default, fixed, sticky, and scrolled states */
-header,
-header.template5,
-header.sticky,
-header.fixed,
-header.scrolled,
-header.is-sticky,
-header.sticky-header,
-header.fixed-header,
-body.scrolled header,
-body.scroll header {
-    background-color: rgba(1, 34, 75, 1) !important;
-}
+/* ============================================================
+   CUSTOM FIXES — ElDoradoHillsListings.com
+   Applied: 2026-07-15
+   Issues addressed:
+     1. Header nav text turns black on scroll → force white in all states
+     2. Footer text invisible on dark navy background → force white
+     3. Header logo inconsistent size vs sticky logo → normalize
+     4. Header logo dark text on navy → add white backdrop
+   ============================================================ */
 
-/* Desktop and mobile header text/links */
-header.template5 .nav-container,
-header.template5 .nav-container .menu-item,
-header.template5 .nav-container .menu-item > a,
-header.template5 .head-menu,
-header.template5 .head-menu a,
-header .nav-container,
-header .nav-container a,
-header .head-menu,
-header .head-menu a,
-header .auth-link,
+/* ------------------------------------------------------------
+   FIX 1: Header nav text — white in ALL header states
+   Sierra Interactive adds .scrolled / .sticky / .scroll-fixed
+   to <header> on scroll. Force nav links to stay white in every
+   state, mirroring the mobile block at max-width: 991px above.
+   ------------------------------------------------------------ */
+
 header .auth-link a,
-header .blog-link,
 header .blog-link a,
-header .phone-link,
 header .phone-link a,
 header .menu-button,
-header .language-selector,
-header .language-selector a,
-header .language-selector span,
-header .dropdown-toggle,
-header .dropdown-toggle span,
-header .item-login,
+header .menu-item a,
+header .nav-link,
+header .head-menu a,
+header .nav-container a,
 header .item-login a,
-header .item-regist,
-header .item-regist a,
-header.sticky a,
-header.fixed a,
-header.scrolled a,
-header.is-sticky a,
-header.sticky-header a,
-header.fixed-header a,
-body.scrolled header a,
-body.scroll header a {
+header .item-regist a {
     color: #ffffff !important;
 }
 
-/* Header icons, arrows, and SVGs */
-header i,
-header svg,
-header svg path,
-header .icon,
-header .arrow,
-header .caret,
-header .dropdown-toggle::before,
-header .dropdown-toggle::after {
-    color: #ffffff !important;
-    fill: #ffffff !important;
-    border-color: #ffffff !important;
-}
+/* Scrolled / sticky states Sierra adds via JavaScript */
 
-/* Header hover/focus/active color */
-header a:hover,
-header a:focus,
-header .menu-item:hover > a,
-header .menu-item:focus-within > a,
-header .menu-item.active > a,
-header .menu-item.current-menu-item > a,
-header .menu-item.current_page_item > a {
-    color: #ffd84d !important;
-}
-
-/* Mobile hamburger bars */
-header .bar,
-header .menu-button .bar,
-header .hamburger span {
-    background-color: #ffffff !important;
-}
-
-/* Footer background */
-footer,
-footer.template5,
-.site-footer,
-#footer {
-    background-color: rgba(1, 34, 75, 1) !important;
-}
-
-/* Footer body text and common containers */
-footer,
-footer p,
-footer span,
-footer li,
-footer address,
-footer small,
-footer label,
-footer strong,
-footer em,
-footer .contact,
-footer .connect,
-footer .navigation,
-footer .popular-searches,
-footer .copyright,
-footer .legal,
-footer .footer-bottom,
-footer .footer-content,
-footer .footer-container,
-.site-footer,
-.site-footer p,
-.site-footer span,
-.site-footer li,
-#footer,
-#footer p,
-#footer span,
-#footer li {
+header.scrolled .auth-link a,
+header.scrolled .blog-link a,
+header.scrolled .phone-link a,
+header.scrolled .menu-button,
+header.scrolled .menu-item a,
+header.scrolled .nav-link,
+header.scrolled .head-menu a,
+header.scrolled .nav-container a,
+header.scrolled .item-login a,
+header.scrolled .item-regist a,
+header.sticky .auth-link a,
+header.sticky .blog-link a,
+header.sticky .phone-link a,
+header.sticky .menu-button,
+header.sticky .menu-item a,
+header.sticky .nav-link,
+header.sticky .head-menu a,
+header.sticky .nav-container a,
+header.sticky .item-login a,
+header.sticky .item-regist a,
+header.fixed .auth-link a,
+header.fixed .blog-link a,
+header.fixed .phone-link a,
+header.fixed .menu-button,
+header.fixed .menu-item a,
+header.fixed .nav-link,
+header.fixed .head-menu a,
+header.fixed .nav-container a,
+header.fixed .item-login a,
+header.fixed .item-regist a,
+header.scroll-fixed .auth-link a,
+header.scroll-fixed .blog-link a,
+header.scroll-fixed .phone-link a,
+header.scroll-fixed .menu-button,
+header.scroll-fixed .menu-item a,
+header.scroll-fixed .nav-link,
+header.scroll-fixed .head-menu a,
+header.scroll-fixed .nav-container a,
+header.scroll-fixed .item-login a,
+header.scroll-fixed .item-regist a,
+header.is-sticky .auth-link a,
+header.is-sticky .blog-link a,
+header.is-sticky .phone-link a,
+header.is-sticky .menu-button,
+header.is-sticky .menu-item a,
+header.is-sticky .nav-link,
+header.is-sticky .head-menu a,
+header.is-sticky .nav-container a,
+header.is-sticky .item-login a,
+header.is-sticky .item-regist a {
     color: #ffffff !important;
 }
 
-/* Footer links */
-footer a,
-.site-footer a,
-#footer a {
+/* Hamburger / mobile menu bars stay white in all states */
+
+header.scrolled .bar,
+header.sticky .bar,
+header.fixed .bar,
+header.scroll-fixed .bar,
+header.is-sticky .bar {
+    background: #ffffff !important;
+}
+
+/* ------------------------------------------------------------
+   FIX 2: Footer text — force white on dark navy background
+   footer bg is rgba(1,34,75,1) (dark navy). Sierra's default
+   footer text inherits a dark color; force everything white.
+   ------------------------------------------------------------ */
+
+footer {
     color: #ffffff !important;
-    text-decoration-color: rgba(255, 255, 255, 0.65) !important;
 }
 
-footer a:hover,
-footer a:focus,
-.site-footer a:hover,
-.site-footer a:focus,
-#footer a:hover,
-#footer a:focus {
-    color: #ffd84d !important;
-    text-decoration-color: #ffd84d !important;
-}
-
-/* Preserve gold footer section headings */
 footer h1,
 footer h2,
 footer h3,
 footer h4,
 footer h5,
-footer h6,
-.site-footer h1,
-.site-footer h2,
-.site-footer h3,
-.site-footer h4,
-.site-footer h5,
-.site-footer h6,
-#footer h1,
-#footer h2,
-#footer h3,
-#footer h4,
-#footer h5,
-#footer h6 {
-    color: #ffd84d !important;
+footer h6 {
+    color: #ffffff !important;
 }
 
-/* Footer social and compliance icons */
-footer i,
-footer svg,
-footer svg path,
-.site-footer i,
-.site-footer svg,
-.site-footer svg path,
-#footer i,
-#footer svg,
-#footer svg path {
+footer p,
+footer li,
+footer span,
+footer label,
+footer small,
+footer address {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.85) !important;
+    text-decoration: none !important;
+}
+
+footer a:hover,
+footer a:focus {
     color: #ffffff !important;
+    text-decoration: underline !important;
+}
+
+footer .copyright,
+footer .footer-legal,
+footer .legal-links a,
+footer .footer-bottom,
+footer .footer-bottom * {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Keep the footer logo box white so the logo is legible */
+footer .logo {
+    background-color: white !important;
+    border-radius: 5px !important;
+}
+
+footer .logo *,
+footer .logo a,
+footer .logo span,
+footer .logo p {
+    color: inherit !important;
+}
+
+/* Social icon SVG / icon fills */
+footer .social-icon svg,
+footer .social-link svg {
     fill: #ffffff !important;
 }
 
-/* Keep the footer logo on its white logo plate */
-footer .logo {
-    background-color: #ffffff !important;
-    border-radius: 5px;
+/* ------------------------------------------------------------
+   FIX 3: Header logo — same size as sticky/scrolled logo
+   Sierra typically shrinks the logo to ~130px on scroll.
+   Setting the base header .logo to the same width makes it
+   consistent between initial and sticky states.
+   ------------------------------------------------------------ */
+
+header .logo {
+    width: 130px !important;
+    max-width: 130px !important;
+    -webkit-transition: none !important;
+    transition: none !important;
 }
 
-footer .logo img {
-    filter: brightness(1) !important;
+header .logo img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    display: block !important;
+}
+
+/* Keep the existing mobile override working at ≤543px */
+@media (max-width: 543px) {
+    header .logo {
+        width: 110px !important;
+        max-width: 110px !important;
+    }
+}
+
+/* ------------------------------------------------------------
+   FIX 4: Header logo — white backdrop so dark logo text is
+   visible against the navy header background.
+   Mirrors the existing footer .logo treatment.
+   ------------------------------------------------------------ */
+
+header .logo {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
+    display: -webkit-inline-box !important;
+    display: -ms-inline-flexbox !important;
+    display: inline-flex !important;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+/* Ensure the backdrop persists in every scroll state */
+header.scrolled .logo,
+header.sticky .logo,
+header.fixed .logo,
+header.scroll-fixed .logo,
+header.is-sticky .logo {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    border-radius: 4px !important;
+    padding: 4px 8px !important;
 }
