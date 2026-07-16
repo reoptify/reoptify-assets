@@ -4275,3 +4275,31 @@ html {
     }
 }
 
+/* Constrain non-sticky header logo to fit within the header bar */
+header .logo img {
+    max-height: 50px !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Header nav links — white in default state (hover and submenu left to Sierra) */
+header #dynamic-menu > ul > li > a,
+header #dynamic-menu > li > a,
+header .dynamic-nav-container #dynamic-menu a:not(:hover):not(:focus) {
+    color: #ffffff !important;
+}
+
+/* Footer text — white on dark navy background (hover colors left to Sierra) */
+footer,
+footer p,
+footer li,
+footer span,
+footer address,
+footer small,
+footer label {
+    color: #ffffff !important;
+}
+
+footer a {
+    color: #ffffff !important;
+}
