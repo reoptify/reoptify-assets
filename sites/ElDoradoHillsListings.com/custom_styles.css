@@ -4282,10 +4282,11 @@ header .logo img {
     height: auto !important;
 }
 
-/* Header nav links — white in default state (hover and submenu left to Sierra) */
+/* Header nav links — white in default state.
+   Only targets top-level bar items (direct children) so submenu
+   text on the white dropdown is left entirely to Sierra. */
 header #dynamic-menu > ul > li > a,
-header #dynamic-menu > li > a,
-header .dynamic-nav-container #dynamic-menu a:not(:hover):not(:focus) {
+header #dynamic-menu > li > a {
     color: #ffffff !important;
 }
 
