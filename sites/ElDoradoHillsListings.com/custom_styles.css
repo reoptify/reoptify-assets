@@ -11,15 +11,6 @@
 #home85613 .communities, #home85613 .chart, #home85613 .blog, #home85613 .featured, #home85613 .about{
     display: none!important;
   }
-footer .logo{
-    background-color: white;
-    border-radius: 5px;
-   
-}
-footer .logo img{ 
-    filter: brightness(1);
-}
-
 
 #schedule_consultation img{
     margin-top: 25px;
@@ -47,18 +38,6 @@ footer .logo img{
 }
 
 
-
-@media(max-width: 991px){
-    header {
-        background-color: #033e67!important;
-    }
-    .auth-link a, .blog-link a, .phone-link a, .menu-button{
-        color: white!important;
-    }
-    .bar{
-        background: white!important;
-    }
-}
 
 
 .slick-slider {
@@ -295,21 +274,7 @@ footer .logo img{
     color: #000;
     opacity: 0.75;
 }
-header.template5 .nav-container {
-    font-family: "Avenir Next", "Lato", sans-serif !important;
-}
-header.template5 .nav-container .menu-item.item-regist,
-header.template5 .nav-container .menu-item.item-login {
-    font-family: "Avenir Next", "Lato", sans-serif !important;
-    line-height: 14px;
-}
-header.template5 .head-menu {
-    -webkit-box-flex: initial !important;
-    -ms-flex: initial !important;
-    flex: initial !important;
-    margin-left: auto;
-    margin-right: 30px;
-}
+
 * {
     font-family: "Avenir Next", "Lato", sans-serif;
 }
@@ -3096,10 +3061,6 @@ body {
     margin-top: 55px;
 }
 
-header.template5 .nav-container {
-  font-family: "Avenir Next", "Lato", sans-serif !important;
-}
-
 .md-custom-code.html-code .mg-container{
     max-width: 100%!important;
     width: 100%!important;
@@ -3115,15 +3076,6 @@ header.template5 .nav-container {
     box-sizing: inherit;
 }
 
-header.template5 .nav-container .menu-item.item-regist, header.template5 .nav-container .menu-item.item-login {
-  font-family: "Avenir Next", "Lato", sans-serif !important;
-  line-height: 14px;
-}
-header.template5 .head-menu {
-  flex: initial !important;
-  margin-left: auto;
-  margin-right: 30px;
-}
 * {
   font-family: "Avenir Next", "Lato", sans-serif;
 }
@@ -4047,9 +3999,6 @@ body {
 }
 @media (max-width: 543px) {
 
-    header .logo{
-        width: 125px!important;
-    }
   #featured_areas, #consultation {
     display: block;
   }
@@ -4251,10 +4200,6 @@ body {
     }
 }
 
-header, footer{
-    background-color: rgba(1, 34, 75, 1.00)!important;
-}
-
 #home85613{
     overflow-x:hidden!important;
 }
@@ -4275,32 +4220,3 @@ html {
     }
 }
 
-/* Constrain non-sticky header logo to fit within the header bar */
-header .logo img {
-    max-height: 50px !important;
-    width: auto !important;
-    height: auto !important;
-}
-
-/* Header nav links — white in default state.
-   Only targets top-level bar items (direct children) so submenu
-   text on the white dropdown is left entirely to Sierra. */
-header #dynamic-menu > ul > li > a,
-header #dynamic-menu > li > a {
-    color: #ffffff !important;
-}
-
-/* Footer text — white on dark navy background (hover colors left to Sierra) */
-footer,
-footer p,
-footer li,
-footer span,
-footer address,
-footer small,
-footer label {
-    color: #ffffff !important;
-}
-
-footer a {
-    color: #ffffff !important;
-}
