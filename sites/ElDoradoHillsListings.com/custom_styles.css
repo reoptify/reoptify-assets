@@ -4220,3 +4220,10 @@ html {
     }
 }
 
+/* White container behind header and footer logos */
+header .logo,
+footer .logo {
+    background-color: white;
+    border-radius: 5px;
+    padding: 4px 8px;
+}
