@@ -1416,3 +1416,223 @@
     text-align: center;
   }
 }
+
+
+/* ============================================================
+   SIERRA MARKET STATS WIDGET — .si-property-stats
+   Overrides Sierra's default widget styling on any page that
+   loads this CSS file. The widget is populated dynamically
+   by Sierra from the page's MLS search ID — no manual data
+   entry needed. Works on county, city, neighborhood, and any
+   other SEO page type.
+
+   Sierra widget HTML structure:
+     <div class="si-container si-property-stats">
+       <div class="si-row">
+         <div class="si-property-stats__title">
+           <span class="si-property-stats__title-main">Area Name</span>
+           <span class="si-property-stats__title-date">Date</span>
+         </div>
+         <div class="si-property-stats__item">
+           <div class="si-property-stats__item-value">757</div>
+           <div class="si-property-stats__item-label">Listed</div>
+         </div>
+         ... (4 items total)
+       </div>
+     </div>
+   ============================================================ */
+
+/* --- Outer container: strip Sierra's default bg/border --- */
+
+.si-container.si-property-stats {
+  background-color: #000000 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* --- Inner row: flex layout for stat items --- */
+
+.si-property-stats .si-row {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+}
+
+/* --- Title band: area name + date --- */
+
+.si-property-stats__title {
+  width: 100% !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  padding: 22px 36px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: baseline !important;
+      -ms-flex-align: baseline !important;
+          align-items: baseline !important;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+
+/* Area name — italic Playfair Display */
+.si-property-stats__title-main {
+  font-family: "Playfair Display", "Lora", Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  color: #ffffff !important;
+  text-transform: none !important;
+  letter-spacing: 0.3px !important;
+  line-height: 1 !important;
+}
+
+/* Date — small uppercase Avenir */
+.si-property-stats__title-date {
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.38) !important;
+  line-height: 1 !important;
+}
+
+/* --- Individual stat items: 4 across on desktop --- */
+
+.si-property-stats__item {
+  -webkit-box-flex: 1 !important;
+      -ms-flex: 1 1 25% !important;
+          flex: 1 1 25% !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  padding: 40px 20px 36px !important;
+  text-align: center !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: transparent !important;
+  position: relative;
+  -webkit-transition: background-color 300ms ease !important;
+          transition: background-color 300ms ease !important;
+}
+
+.si-property-stats__item:last-child {
+  border-right: none !important;
+}
+
+.si-property-stats__item:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Gold accent line above each stat value */
+.si-property-stats__item::before {
+  content: "" !important;
+  display: block !important;
+  width: 28px !important;
+  height: 2px !important;
+  background-color: #ffd82a !important;
+  margin: 0 auto 22px !important;
+}
+
+/* Stat value — large Playfair Display number */
+.si-property-stats__item-value {
+  font-family: "Playfair Display", "Lora", Georgia, serif !important;
+  font-size: 36px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  letter-spacing: 0.5px !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+}
+
+/* Stat label — small uppercase Avenir */
+.si-property-stats__item-label {
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+}
+
+/* ----------------------------------------------------------------
+   Sierra widget responsive
+   ---------------------------------------------------------------- */
+
+/* Tablet: 2 × 2 grid */
+@media (max-width: 767px) {
+  .si-property-stats__title {
+    padding: 18px 24px !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
+    gap: 6px !important;
+    -webkit-box-align: start !important;
+        -ms-flex-align: start !important;
+            align-items: flex-start !important;
+  }
+
+  .si-property-stats__item {
+    -ms-flex: 1 1 50% !important;
+        flex: 1 1 50% !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+  }
+
+  /* Even items (2nd and 4th) — no right border */
+  .si-property-stats__item:nth-child(even) {
+    border-right: none !important;
+  }
+
+  /* Odd items (3rd) — keep right border */
+  .si-property-stats__item:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+  }
+
+  /* Last two items — no bottom border */
+  .si-property-stats__item:nth-last-child(1),
+  .si-property-stats__item:nth-last-child(2) {
+    border-bottom: none !important;
+  }
+
+  .si-property-stats__item-value {
+    font-size: 30px !important;
+  }
+}
+
+/* Mobile: full-width stacked */
+@media (max-width: 480px) {
+  .si-property-stats__item {
+    -ms-flex: 1 1 100% !important;
+        flex: 1 1 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+    padding: 32px 20px 28px !important;
+  }
+
+  .si-property-stats__item:last-child {
+    border-bottom: none !important;
+  }
+}
