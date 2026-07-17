@@ -970,7 +970,12 @@
 
 /* CTA button wrap (replaces inline calculator form) */
 .reopt-mortgage__cta-wrap {
-  text-align: center;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
   margin-top: 12px;
 }
 
