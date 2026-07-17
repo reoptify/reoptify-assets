@@ -623,12 +623,25 @@
 
 .reopt-searches {
   width: 100%;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 
 .reopt-searches__header {
   padding: 70px 24px 60px;
   text-align: center;
+}
+
+/* White theme — override dark sec-header defaults */
+.reopt-searches .reopt-sec-header__label {
+  color: rgba(0, 0, 0, 0.38) !important;
+}
+
+.reopt-searches .reopt-sec-header__heading {
+  color: #000000 !important;
+}
+
+.reopt-searches .reopt-sec-header__intro {
+  color: rgba(0, 0, 0, 0.62) !important;
 }
 
 /* Tile grid — 3 columns desktop, 1 column mobile */
@@ -728,6 +741,122 @@
   .reopt-searches__tile--wide {
     width: 100%;
     height: 52vw;
+  }
+}
+
+
+/* ============================================================
+   SIERRA CONTENT LABEL — .reopt-cl
+   Custom replacement for Sierra's .si-content-label component.
+   Rendered by seo-content-label.js. White background to match
+   .reopt-searches section. Works for any number of instances.
+
+   Sierra source structure:
+     .si-content-label > .si-row >
+       .si-content-label__title  (heading text)
+       .si-content-label__body > .si-content-label__link > a
+   ============================================================ */
+
+.reopt-cl {
+  background: #ffffff !important;
+  padding: 52px 24px 64px !important;
+  text-align: center !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.07) !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+}
+
+/* Header: title + gold rule */
+.reopt-cl__header {
+  margin-bottom: 32px !important;
+}
+
+.reopt-cl__title {
+  display: block !important;
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  letter-spacing: 5px !important;
+  text-transform: uppercase !important;
+  color: rgba(0, 0, 0, 0.38) !important;
+  margin-bottom: 16px !important;
+}
+
+.reopt-cl__rule {
+  display: block !important;
+  width: 36px !important;
+  height: 2px !important;
+  background-color: #ffd82a !important;
+  margin: 0 auto !important;
+  border: none !important;
+}
+
+/* Pill list */
+.reopt-cl__list {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+  gap: 10px !important;
+  list-style: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  max-width: 860px !important;
+}
+
+.reopt-cl__item {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Individual pill tag */
+.reopt-cl__pill {
+  display: -webkit-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: #000000 !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.18) !important;
+  padding: 11px 20px !important;
+  background: transparent !important;
+  -webkit-transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease !important;
+          transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+.reopt-cl__pill:hover,
+.reopt-cl__pill:focus {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  text-decoration: none !important;
+}
+
+@media (min-width: 768px) {
+  .reopt-cl {
+    padding: 60px 48px 72px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .reopt-cl__pill {
+    font-size: 10px !important;
+    padding: 10px 16px !important;
+    letter-spacing: 2px !important;
   }
 }
 
