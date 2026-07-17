@@ -1326,6 +1326,11 @@
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/* First item border handled by __rule above — suppress the duplicate */
+.reopt-faq__item:first-child {
+  border-top: none !important;
+}
+
 .reopt-faq__item:last-child {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
