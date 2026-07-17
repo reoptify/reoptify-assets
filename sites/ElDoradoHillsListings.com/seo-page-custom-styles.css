@@ -968,6 +968,12 @@
   font-style: italic;
 }
 
+/* CTA button wrap (replaces inline calculator form) */
+.reopt-mortgage__cta-wrap {
+  text-align: center;
+  margin-top: 12px;
+}
+
 @media (min-width: 768px) {
   .reopt-mortgage {
     padding: 90px 48px 100px;
