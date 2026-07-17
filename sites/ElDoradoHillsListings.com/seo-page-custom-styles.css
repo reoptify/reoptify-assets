@@ -1419,6 +1419,271 @@
 
 
 /* ============================================================
+   MARKET STATS — CUSTOM WIDGET  .reopt-msw
+   Rendered by seo-market-stats.js after extracting live data
+   from Sierra's .si-property-stats element (which is hidden).
+   ============================================================ */
+
+.reopt-msw {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  width: 100% !important;
+  max-width: 100% !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  overflow: hidden;
+}
+
+/* --- Header band --- */
+
+.reopt-msw__header {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: justify !important;
+      -ms-flex-pack: justify !important;
+          justify-content: space-between !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+  gap: 12px !important;
+  padding: 20px 36px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+}
+
+.reopt-msw__header-left {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  gap: 18px !important;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+}
+
+.reopt-msw__header-right {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: baseline !important;
+      -ms-flex-align: baseline !important;
+          align-items: baseline !important;
+  gap: 6px !important;
+}
+
+/* Pulsing "Live MLS Data" badge */
+.reopt-msw__live-badge {
+  display: -webkit-inline-box !important;
+  display: -ms-inline-flexbox !important;
+  display: inline-flex !important;
+  -webkit-box-align: center !important;
+      -ms-flex-align: center !important;
+          align-items: center !important;
+  gap: 5px !important;
+  background: #ffd82a !important;
+  color: #000000 !important;
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase !important;
+  padding: 5px 11px !important;
+  border-radius: 2px !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+/* Area name — italic Playfair */
+.reopt-msw__area {
+  font-family: "Playfair Display", "Lora", Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* "As of" label */
+.reopt-msw__as-of {
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+  line-height: 1 !important;
+}
+
+/* Date value */
+.reopt-msw__date {
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  line-height: 1 !important;
+}
+
+/* --- Stats row --- */
+
+.reopt-msw__stats {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -ms-flex-wrap: nowrap !important;
+      flex-wrap: nowrap !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Individual stat cell */
+.reopt-msw__stat {
+  -webkit-box-flex: 1 !important;
+      -ms-flex: 1 1 0% !important;
+          flex: 1 1 0% !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  padding: 44px 16px 38px !important;
+  text-align: center !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: transparent !important;
+  -webkit-transition: background-color 280ms ease !important;
+          transition: background-color 280ms ease !important;
+  cursor: default;
+}
+
+.reopt-msw__stat:last-child {
+  border-right: none !important;
+}
+
+.reopt-msw__stat:hover {
+  background-color: rgba(255, 216, 42, 0.04) !important;
+}
+
+/* Gold accent bar above each value */
+.reopt-msw__stat-bar {
+  width: 24px !important;
+  height: 2px !important;
+  background-color: #ffd82a !important;
+  margin: 0 auto 24px !important;
+  -webkit-transition: width 280ms ease !important;
+          transition: width 280ms ease !important;
+}
+
+.reopt-msw__stat:hover .reopt-msw__stat-bar {
+  width: 40px !important;
+}
+
+/* The number — large Playfair Display */
+.reopt-msw__stat-value {
+  font-family: "Playfair Display", "Lora", Georgia, serif !important;
+  font-size: 38px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  letter-spacing: 0.5px !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* The label — small uppercase Avenir */
+.reopt-msw__stat-label {
+  font-family: "Avenir Next", "Lato", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.42) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ----------------------------------------------------------------
+   .reopt-msw responsive
+   ---------------------------------------------------------------- */
+
+/* Tablet: 2 × 2 grid */
+@media (max-width: 767px) {
+  .reopt-msw__header {
+    padding: 16px 20px !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
+    -webkit-box-align: start !important;
+        -ms-flex-align: start !important;
+            align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .reopt-msw__area {
+    font-size: 16px !important;
+  }
+
+  .reopt-msw__stats {
+    -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+  }
+
+  .reopt-msw__stat {
+    -ms-flex: 1 1 50% !important;
+        flex: 1 1 50% !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+    padding: 36px 12px 30px !important;
+  }
+
+  .reopt-msw__stat:nth-child(2n) {
+    border-right: none !important;
+  }
+
+  .reopt-msw__stat:nth-child(2n+1) {
+    border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+  }
+
+  .reopt-msw__stat:nth-last-child(1),
+  .reopt-msw__stat:nth-last-child(2) {
+    border-bottom: none !important;
+  }
+
+  .reopt-msw__stat-value {
+    font-size: 30px !important;
+  }
+}
+
+/* Mobile: full-width stack */
+@media (max-width: 480px) {
+  .reopt-msw__stat {
+    -ms-flex: 1 1 100% !important;
+        flex: 1 1 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+    padding: 30px 20px 26px !important;
+  }
+
+  .reopt-msw__stat:last-child {
+    border-bottom: none !important;
+  }
+
+  .reopt-msw__stat-value {
+    font-size: 34px !important;
+  }
+}
+
+
+/* ============================================================
    SIERRA MARKET STATS WIDGET — .si-property-stats
    Overrides Sierra's default widget styling on any page that
    loads this CSS file. The widget is populated dynamically
