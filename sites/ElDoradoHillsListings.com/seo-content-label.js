@@ -2,12 +2,22 @@
   'use strict';
 
   /* ----------------------------------------------------------
-     1. DATA EXTRACTION
-     Pull title + link list from one .si-content-label element.
+     1. SELECTOR
+     Both known Sierra Content Label variants.
+     ---------------------------------------------------------- */
+
+  var SELECTOR = '.si-content-label, .si-content-label-gallery';
+
+  /* ----------------------------------------------------------
+     2. DATA EXTRACTION
+     Handles both title class names across variants.
      ---------------------------------------------------------- */
 
   function extractData(container) {
-    var titleEl = container.querySelector('.si-content-label__title');
+    var titleEl =
+      container.querySelector('.si-content-label__title') ||
+      container.querySelector('.si-content-label-gallery__title');
+
     var linkEls = container.querySelectorAll('.si-content-label__link a');
 
     var links = [];
@@ -27,7 +37,7 @@
   }
 
   /* ----------------------------------------------------------
-     2. WIDGET HTML BUILDER
+     3. WIDGET HTML BUILDER
      ---------------------------------------------------------- */
 
   function escHTML(str) {
@@ -70,7 +80,7 @@
   }
 
   /* ----------------------------------------------------------
-     3. INJECTION
+     4. INJECTION
      Build the custom widget, insert before Sierra's element,
      hide the original.
      ---------------------------------------------------------- */
@@ -93,12 +103,12 @@
   }
 
   /* ----------------------------------------------------------
-     4. PROCESS ALL INSTANCES
-     Handles multiple Content Label components on one page.
+     5. PROCESS ALL INSTANCES
+     Handles both variant selectors, multiple per page.
      ---------------------------------------------------------- */
 
   function processAll() {
-    var containers = document.querySelectorAll('.si-content-label');
+    var containers = document.querySelectorAll(SELECTOR);
     for (var i = 0; i < containers.length; i++) {
       if (!containers[i].hasAttribute('data-reopt-cl-done')) {
         containers[i].setAttribute('data-reopt-cl-done', '1');
@@ -108,7 +118,7 @@
   }
 
   /* ----------------------------------------------------------
-     5. OBSERVER
+     6. OBSERVER
      Sierra may inject Content Label components asynchronously.
      Watch the DOM for any that appear after page load.
      ---------------------------------------------------------- */
