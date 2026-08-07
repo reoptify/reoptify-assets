@@ -4216,19 +4216,29 @@ html {
     }
 }
 
-/* White container behind header and footer logos */
-header .logo,
+/* Header logo container */
+header .logo {
+    background: #fff;
+    border-radius: 5px;
+    padding: 0 8px;
+    height: 65px !important;
+    width: auto !important;
+    line-height: 65px !important;
+    box-sizing: border-box;
+}
+
+/* Header logo image */
+header .logo img {
+    height: 65px !important;
+    width: auto !important;
+    max-height: 65px !important;
+    max-width: none !important;
+    display: block;
+}
+
+/* Footer logo can keep its existing padding */
 footer .logo {
     background: #fff;
     border-radius: 5px;
     padding: 4px 8px;
-}
-
-/* Make the header logo fill the full header height */
-header .logo img {
-    height: 100% !important;
-    width: auto !important;
-    max-height: none !important;
-    max-width: none !important;
-    display: block;
 }
