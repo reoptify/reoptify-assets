@@ -2114,3 +2114,23 @@
     border-bottom: none !important;
   }
 }
+/* ============================================================
+   FULL-BLEED REOPTIFY SECTIONS
+   Removes Sierra's 15px Bootstrap column gutter
+   ============================================================ */
+
+.si-content-area > .reopt-hero,
+.si-content-area > .reopt-overview,
+.si-content-area > .reopt-listings,
+.si-content-area > .reopt-lifestyle,
+.si-content-area > .reopt-searches,
+.si-content-area > .reopt-market,
+.si-content-area > .reopt-mortgage,
+.si-content-area > .reopt-agent,
+.si-content-area > .reopt-faq,
+.si-content-area > .reopt-cta {
+    width: calc(100% + 30px) !important;
+    max-width: none !important;
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+}
