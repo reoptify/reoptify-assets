@@ -139,6 +139,20 @@ export async function convertLeadToSeller(leadId, env) {
 
   const hasRequiredSource = lead.source === "Google PPC";
 
+console.log(
+  `Seller eligibility for lead ${leadId}:`,
+  JSON.stringify({
+    source: lead.source ?? null,
+    tags: Array.isArray(lead.tags)
+      ? lead.tags.map((tag) =>
+          typeof tag === "string" ? tag : tag?.name
+        )
+      : [],
+    hasRequiredTag,
+    hasRequiredSource,
+  })
+);
+  
   if (!hasRequiredTag || !hasRequiredSource) {
     return {
       success: true,
