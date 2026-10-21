@@ -22,41 +22,51 @@ async function processSellerConversion(leadId, env) {
       );
 
       if (!result.skipped) {
-        return result;
+        return;
       }
 
-      // The lead may still be receiving its source,
-      // tags, or initial agent assignment.
       if (attempt < RETRY_DELAYS_MS.length) {
         await wait(RETRY_DELAYS_MS[attempt]);
       }
     } catch (error) {
       console.error(
-        `Seller conversion attempt ${attempt + 1} failed for lead ${leadId}:`,
+        `Seller conversion failed for lead ${leadId}:`,
         error
       );
-
-      // Stop on API errors rather than repeating
-      // potentially successful updates.
-      return {
-        success: false,
-        error: error.message,
-      };
+      return;
     }
   }
 
-  console.log(
-    `Seller conversion skipped after retries for lead ${leadId}.`
+  console.warn(
+    `Seller conversion skipped after all retries for lead ${leadId}`
   );
-
-  return {
-    success: true,
-    skipped: true,
-    reason: "Conversion conditions not met after retries",
-  };
 }
 
-export async function handleSierraWebhook(request, env) {
+async function processLead(leadId, env) {
+  // Add the qualification checklist.
+  try {
+    const result = await updateLeadSummary(
+      leadId,
+      LEAD_QUALIFICATION_CHECKLIST,
+      env
+    );
+
+    console.log(
+      `Checklist result for lead ${leadId}:`,
+      JSON.stringify(result)
+    );
+  } catch (error) {
+    console.error(
+      `Checklist failed for lead ${leadId}:`,
+      error
+    );
+  }
+
+  // Convert qualifying leads to Seller.
+  await processSellerConversion(leadId, env);
+}
+
+export async function handleSierraWebhook(request, env, context) {
   try {
     const payload = await request.json();
 
@@ -70,42 +80,37 @@ export async function handleSierraWebhook(request, env) {
       return new Response("No lead ID supplied", { status: 400 });
     }
 
-    for (const leadId of leadIds) {
-      // Step 1: Add the qualification checklist.
-      try {
-        await updateLeadSummary(
-          leadId,
-          LEAD_QUALIFICATION_CHECKLIST,
-          env
-        );
-      } catch (error) {
-        console.error(
-          `Checklist failed for lead ${leadId}:`,
-          error
-        );
-      }
-
-      // Step 2: Convert qualifying Seller leads.
-      try {
-        await processSellerConversion(leadId, env);
-      } catch (error) {
-        console.error(
-          `Seller processing failed for lead ${leadId}:`,
-          error
-        );
-      }
+    if (typeof context?.waitUntil !== "function") {
+      console.error("Cloudflare waitUntil unavailable");
+      return new Response(
+        "Background processing unavailable",
+        { status: 500 }
+      );
     }
 
-    return new Response(
-      "Lead processing completed",
-      { status: 200 }
+    context.waitUntil(
+      (async () => {
+        for (const leadId of leadIds) {
+          try {
+            await processLead(leadId, env);
+          } catch (error) {
+            console.error(
+              `Processing failed for lead ${leadId}:`,
+              error
+            );
+          }
+        }
+      })()
     );
+
+    return new Response("LeadCreated accepted", {
+      status: 200,
+    });
   } catch (error) {
     console.error("Sierra webhook error:", error);
 
-    return new Response(
-      "Webhook processing failed",
-      { status: 500 }
-    );
+    return new Response("Webhook processing failed", {
+      status: 500,
+    });
   }
 }
