@@ -170,6 +170,9 @@ console.log(
       body: JSON.stringify({
   leadType: 2,
   leadStatus: "New",
+  assignTo: {
+    agentUserId: 5317
+  }
 }),
     }
   );
