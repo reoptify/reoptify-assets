@@ -86,3 +86,101 @@ export async function updateLeadSummary(leadId, checklist, env) {
 
   return updateResult;
 }
+
+
+export async function convertLeadToSeller(leadId, env) {
+  const baseUrl = "https://api.sierrainteractivedev.com";
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Sierra-ApiKey": env.SIERRA_API_KEY_001,
+    "Sierra-OriginatingSystemName": "REOptify",
+  };
+
+  // Step 1: Retrieve the newly registered lead.
+  const getResponse = await fetch(
+    `${baseUrl}/leads/get/${encodeURIComponent(leadId)}?includeTags=true`,
+    {
+      method: "GET",
+      headers,
+    }
+  );
+
+  const getText = await getResponse.text();
+
+  let getResult;
+
+  try {
+    getResult = JSON.parse(getText);
+  } catch {
+    throw new Error(
+      `Sierra returned HTTP ${getResponse.status} with a non-JSON response while retrieving lead ${leadId}.`
+    );
+  }
+
+  if (!getResponse.ok || getResult.success !== true) {
+    throw new Error(
+      getResult.errorMessage ||
+        `Unable to retrieve Sierra lead ${leadId}.`
+    );
+  }
+
+  const lead = getResult.data;
+
+  // Step 2: Check the required tag and lead source.
+  const hasRequiredTag =
+    Array.isArray(lead.tags) &&
+    lead.tags.some((tag) => {
+      const tagName =
+        typeof tag === "string" ? tag : tag?.name;
+
+      return tagName === "Smart Seller Programs";
+    });
+
+  const hasRequiredSource = lead.source === "Google PPC";
+
+  if (!hasRequiredTag || !hasRequiredSource) {
+    return {
+      success: true,
+      skipped: true,
+      reason: "Lead does not meet conversion conditions",
+    };
+  }
+
+  // Step 3: Update only the Lead Type to Seller.
+  const updateResponse = await fetch(
+    `${baseUrl}/leads/${encodeURIComponent(leadId)}`,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        leadType: 2,
+      }),
+    }
+  );
+
+  const updateText = await updateResponse.text();
+
+  let updateResult;
+
+  try {
+    updateResult = JSON.parse(updateText);
+  } catch {
+    throw new Error(
+      `Sierra returned HTTP ${updateResponse.status} with a non-JSON response while converting lead ${leadId}.`
+    );
+  }
+
+  if (!updateResponse.ok || updateResult.success !== true) {
+    throw new Error(
+      updateResult.errorMessage ||
+        `Unable to convert Sierra lead ${leadId} to Seller.`
+    );
+  }
+
+  return {
+    success: true,
+    converted: true,
+    leadId,
+  };
+}
