@@ -168,8 +168,9 @@ console.log(
       method: "PUT",
       headers,
       body: JSON.stringify({
-        leadType: 2,
-      }),
+  leadType: 2,
+  leadStatus: "New",
+}),
     }
   );
 
