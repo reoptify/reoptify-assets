@@ -88,71 +88,64 @@ export async function updateLeadSummary(leadId, checklist, env) {
 }
 
 
+
 export async function convertLeadToSeller(leadId, env) {
   const baseUrl = "https://api.sierrainteractivedev.com";
-
   const headers = {
     "Content-Type": "application/json",
     "Sierra-ApiKey": env.SIERRA_API_KEY_001,
     "Sierra-OriginatingSystemName": "REOptify",
   };
 
-  // Step 1: Retrieve the newly registered lead.
-  const getResponse = await fetch(
-    `${baseUrl}/leads/get/${encodeURIComponent(leadId)}?includeTags=true`,
-    {
-      method: "GET",
+  const leadUrl = `${baseUrl}/leads/${encodeURIComponent(leadId)}`;
+
+  async function sierraRequest(url, method, body) {
+    const response = await fetch(url, {
+      method,
       headers,
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+
+    const text = await response.text();
+    let result;
+
+    try {
+      result = JSON.parse(text);
+    } catch {
+      throw new Error(
+        `Sierra returned a non-JSON response (HTTP ${response.status}).`
+      );
     }
+
+    if (!response.ok || result.success !== true) {
+      throw new Error(
+        result.errorMessage ||
+        `Sierra API request failed (HTTP ${response.status}).`
+      );
+    }
+
+    return result;
+  }
+
+  // Retrieve lead details and tags.
+  const getResult = await sierraRequest(
+    `${baseUrl}/leads/get/${encodeURIComponent(leadId)}?includeTags=true`,
+    "GET"
   );
-
-  const getText = await getResponse.text();
-
-  let getResult;
-
-  try {
-    getResult = JSON.parse(getText);
-  } catch {
-    throw new Error(
-      `Sierra returned HTTP ${getResponse.status} with a non-JSON response while retrieving lead ${leadId}.`
-    );
-  }
-
-  if (!getResponse.ok || getResult.success !== true) {
-    throw new Error(
-      getResult.errorMessage ||
-        `Unable to retrieve Sierra lead ${leadId}.`
-    );
-  }
 
   const lead = getResult.data;
 
-  // Step 2: Check the required tag and lead source.
+  // Only process qualifying Smart Seller Programs leads.
   const hasRequiredTag =
     Array.isArray(lead.tags) &&
-    lead.tags.some((tag) => {
-      const tagName =
-        typeof tag === "string" ? tag : tag?.name;
-
-      return tagName === "Smart Seller Programs";
-    });
+    lead.tags.some(
+      (tag) =>
+        (typeof tag === "string" ? tag : tag?.name) ===
+        "Smart Seller Programs"
+    );
 
   const hasRequiredSource = lead.source === "Google PPC";
 
-console.log(
-  `Seller eligibility for lead ${leadId}:`,
-  JSON.stringify({
-    source: lead.source ?? null,
-    tags: Array.isArray(lead.tags)
-      ? lead.tags.map((tag) =>
-          typeof tag === "string" ? tag : tag?.name
-        )
-      : [],
-    hasRequiredTag,
-    hasRequiredSource,
-  })
-);
-  
   if (!hasRequiredTag || !hasRequiredSource) {
     return {
       success: true,
@@ -161,44 +154,40 @@ console.log(
     };
   }
 
-  // Step 3: Update only the Lead Type to Seller.
-  const updateResponse = await fetch(
-    `${baseUrl}/leads/${encodeURIComponent(leadId)}`,
-    {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({
-  leadType: 2,
-  leadStatus: "New",
-  assignTo: {
-    agentUserId: 5317
-  }
-}),
-    }
-  );
+  // Capture the existing agent before making changes.
+  const agentUserId =
+    lead.assignedTo?.agentUserId > 0
+      ? lead.assignedTo.agentUserId
+      : lead.listingAgent?.agentUserId > 0
+        ? lead.listingAgent.agentUserId
+        : null;
 
-  const updateText = await updateResponse.text();
+  // Step 1: Change Lead Type to Seller.
+  await sierraRequest(leadUrl, "PUT", {
+    leadType: 2,
+  });
 
-  let updateResult;
-
-  try {
-    updateResult = JSON.parse(updateText);
-  } catch {
-    throw new Error(
-      `Sierra returned HTTP ${updateResponse.status} with a non-JSON response while converting lead ${leadId}.`
-    );
+  // Step 2: Assign the existing agent as Listing Agent.
+  if (agentUserId) {
+    await sierraRequest(leadUrl, "PUT", {
+      leadType: 2,
+      assignTo: {
+        agentUserId,
+      },
+    });
   }
 
-  if (!updateResponse.ok || updateResult.success !== true) {
-    throw new Error(
-      updateResult.errorMessage ||
-        `Unable to convert Sierra lead ${leadId} to Seller.`
-    );
-  }
+  // Step 3: Set Lead Status to New.
+  await sierraRequest(leadUrl, "PUT", {
+    leadType: 2,
+    leadStatus: "New",
+  });
 
   return {
     success: true,
     converted: true,
     leadId,
+    agentUserId,
   };
 }
+
