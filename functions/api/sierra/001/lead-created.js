@@ -1,3 +1,4 @@
+
 import { handleSierraWebhook } from "../../../../sites/ElDoradoHillsListings.com/webhook.js";
 
 export async function onRequest(context) {
@@ -10,7 +11,7 @@ export async function onRequest(context) {
   }
 
   if (request.method === "POST") {
-    return handleSierraWebhook(request, env);
+    return handleSierraWebhook(request, env, context);
   }
 
   return new Response("Method Not Allowed", {
